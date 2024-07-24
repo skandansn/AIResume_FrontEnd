@@ -28,7 +28,7 @@ const PDFViewer = () => {
 
     async function resumeLoader() {
 
-        const response = await fetch('http://localhost:8000/account/outputResumeLink', {
+        const response = await fetch('https://airesume-backend.onrender.com/account/outputResumeLink', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

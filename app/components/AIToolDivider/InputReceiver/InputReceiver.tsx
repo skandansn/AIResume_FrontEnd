@@ -12,7 +12,7 @@ const InputReceiver = async () => {
         window.location.href = '/auth/signin'
     }
 
-    const response = await fetch('http://localhost:8000/account/listTexFiles', {
+    const response = await fetch('https://airesume-backend.onrender.com/account/listTexFiles', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

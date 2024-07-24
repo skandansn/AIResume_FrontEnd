@@ -24,7 +24,7 @@ const InputTexFilesEditor = () => {
         const formData = new FormData();
         formData.append('input_tex', selectedFile);
 
-        const response = await fetch('http://localhost:8000/account/updateInputTex', {
+        const response = await fetch('https://airesume-backend.onrender.com/account/updateInputTex', {
             method: 'POST',
             body: formData,
             credentials: 'include'

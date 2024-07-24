@@ -8,7 +8,7 @@ const OutputResumeNameEditor = () => {
 
     async function outputResumeNameButtonHandler() {
 
-        const response = await fetch('http://localhost:8000/account/updateOutputResumeName', {
+        const response = await fetch('https://airesume-backend.onrender.com/account/updateOutputResumeName', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

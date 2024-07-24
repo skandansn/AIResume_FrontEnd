@@ -8,7 +8,7 @@ const ResumeContentEditor = () => {
 
     async function resumeContentEditorButtonHandler() {
 
-        const response = await fetch('http://localhost:8000/account/updateResumeContent', {
+        const response = await fetch('https://airesume-backend.onrender.com/account/updateResumeContent', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

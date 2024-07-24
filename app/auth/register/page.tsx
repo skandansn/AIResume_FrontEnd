@@ -21,7 +21,7 @@ const SignInPage = () => {
             return
         }
 
-        const response = await fetch('http://localhost:8000/signUp', {
+        const response = await fetch('https://airesume-backend.onrender.com/signUp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
