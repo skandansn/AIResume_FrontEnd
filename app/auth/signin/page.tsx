@@ -46,7 +46,7 @@ const SignInPage = () => {
             <input value={email} onChange={(e) => setEmail(e.target.value)} required type="email" placeholder="Enter Email" className="input input-bordered w-full max-w-xs" />
             <input value={password} onChange={(e) => setPassword(e.target.value)} required type="password" placeholder="Enter Password" className="input input-bordered w-full max-w-xs" /> 
             <button type="submit" className="btn">Sign In</button>
-            <text className='text-sm'>Don't have an account? <a href='/auth/register'>Register</a></text>
+            <text className='text-sm'>Do not have an account? <a href='/auth/register'>Register</a></text>
         </form>
      </div>
   )
