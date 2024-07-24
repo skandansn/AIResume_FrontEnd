@@ -36,7 +36,7 @@ const InputReceiver = async () => {
                     <span className="label-text">Select your input resume template</span>
                 </div>
                 <select className="select select-bordered">
-                    {
+                    { resumeTemplates &&
                         resumeTemplates.map((resumeTemplate: string, index: number) => {
                             return (
                                 <option key={index} value={resumeTemplate}>{resumeTemplate}</option>
