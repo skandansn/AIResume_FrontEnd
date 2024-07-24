@@ -11,8 +11,11 @@ const Profile = async () => {
     
     const authToken = nextCookies.get('authToken')
 
+    console.log(authToken)
+    console.log(authToken?.value)
+
     if (!authToken) {
-        window.location.href = '/auth/signin'
+        // window.location.href = '/auth/signin'
     }
 
     const response = await fetch('https://airesume-backend.onrender.com/account', {
