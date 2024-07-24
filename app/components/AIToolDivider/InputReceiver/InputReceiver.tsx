@@ -1,12 +1,13 @@
 import React from 'react'
 import { cookies } from 'next/headers'
+import { getCookie } from 'cookies-next'
 import GenerateResumeButton from './GenerateResumeButton';
 
 const InputReceiver = async () => {
-
-    const nextCookies = cookies()
     
-    const authToken = nextCookies.get('authToken')
+    const authToken = getCookie('authToken', { cookies })
+
+    var resumeTemplates: string[] = []
 
     if (!authToken) {
         // window.location.href = '/auth/signin'
@@ -16,17 +17,18 @@ const InputReceiver = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken?.value}`
+            'Authorization': `Bearer ${authToken}`
         },
         credentials: 'include'
     })
 
-    const resumeTemplates = await response.json()
+    const responseJson = await response.json()
 
     if (response.ok) {
+        resumeTemplates = responseJson
         // console.log(resumeTemplates)
     } else {
-        console.log(resumeTemplates.detail)
+        console.log(responseJson)
     }
 
     return (

@@ -1,5 +1,6 @@
 import React from 'react'
 import { cookies } from 'next/headers'
+import { getCookie } from 'cookies-next'
 import OutputResumeNameEditor from '../components/Account/OutputResumeNameEditor'
 import ResumeContentEditor from '../components/Account/ResumeContentEditor'
 import InputTexFilesEditor from '../components/Account/InputTexFilesEditor'
@@ -7,12 +8,9 @@ import ResumeContent from '../components/Account/ResumeContent'
 
 const Profile = async () => {
 
-    const nextCookies = cookies()
+    const authToken = getCookie('authToken', { cookies })
     
-    const authToken = nextCookies.get('authToken')
-
     console.log(authToken)
-    console.log(authToken?.value)
 
     if (!authToken) {
         // window.location.href = '/auth/signin'
@@ -22,15 +20,18 @@ const Profile = async () => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken?.value}`
+            'Authorization': `Bearer ${authToken}`
         },
         credentials: 'include'
     })
 
     const data = await response.json()
 
+    console.log(data)
+
     if (response.ok) {
-        // console.log(data)
+        console.log("Profile data")
+        console.log(data)
     } else {
         // console.log(data.detail)
     }

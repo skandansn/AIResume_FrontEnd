@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server'
 export function middleware(request: NextRequest) {
   const authToken = request.cookies.get('authToken');
 
-  console.log(authToken)
+  // console.log(authToken)
 
   if (!authToken) {
     // Redirect to /signin if the token is not present
