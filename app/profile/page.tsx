@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
-import { cookies } from 'next/headers'
-import { getCookie } from 'cookies-next'
+// import { cookies } from 'next/headers'
+// import { getCookie } from 'cookies-next'
 import OutputResumeNameEditor from '../components/Account/OutputResumeNameEditor'
 import ResumeContentEditor from '../components/Account/ResumeContentEditor'
 import InputTexFilesEditor from '../components/Account/InputTexFilesEditor'
@@ -9,19 +9,19 @@ import ResumeContent from '../components/Account/ResumeContent'
 
 const Profile = async () => {
 
-    const authToken = getCookie('authToken', { cookies })
+    // const authToken = getCookie('authToken', { cookies })
     
-    console.log(authToken)
+    // console.log(authToken)
 
-    if (!authToken) {
-        // window.location.href = '/auth/signin'
-    }
+    // if (!authToken) {
+    //     // window.location.href = '/auth/signin'
+    // }
 
     const response = await fetch('https://airesume-backend.onrender.com/account', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken}`
+            // 'Authorization': `Bearer ${authToken}`
         },
         credentials: 'include'
     })
