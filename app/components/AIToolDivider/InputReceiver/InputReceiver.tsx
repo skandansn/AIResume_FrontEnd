@@ -4,7 +4,7 @@ import React from 'react'
 // import { getCookie } from 'cookies-next'
 import GenerateResumeButton from './GenerateResumeButton';
 
-const InputReceiver = async () => {
+const InputReceiver = () => {
     
     // const authToken = getCookie('authToken', { cookies })
 
