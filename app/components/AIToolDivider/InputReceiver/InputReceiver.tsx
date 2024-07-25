@@ -7,29 +7,59 @@ const InputReceiver = async () => {
     
     // const authToken = getCookie('authToken', { cookies })
 
-    var resumeTemplates: string[] = []
+    // var resumeTemplates: string[] = []
 
     // if (!authToken) {
     //     // window.location.href = '/auth/signin'
     // }
 
-    const response = await fetch('https://airesume-backend.onrender.com/account/listTexFiles', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${authToken}`
-        },
-        credentials: 'include'
-    })
+    // const response = await fetch('https://airesume-backend.onrender.com/account/listTexFiles', {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         // 'Authorization': `Bearer ${authToken}`
+    //     },
+    //     credentials: 'include'
+    // })
 
-    const responseJson = await response.json()
+    // const responseJson = await response.json()
 
-    if (response.ok) {
-        resumeTemplates = responseJson
-        // console.log(resumeTemplates)
-    } else {
-        console.log(responseJson)
+    // if (response.ok) {
+    //     resumeTemplates = responseJson
+    //     // console.log(resumeTemplates)
+    // } else {
+    //     console.log(responseJson)
+    // }
+
+    const [resumeTemplates, setResumeTemplates] = React.useState<string[]>([])
+
+    React.useEffect(() => {
+        async function fetchData() {
+            const response = await fetch('https://airesume-backend.onrender.com/account/listTexFiles', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${authToken}`
+                },
+                credentials: 'include'
+            })
+
+            const data = await response.json()
+
+            // console.log(data)
+
+            if (response.ok) {
+                // console.log("Profile data")
+                // console.log(data)
+                setResumeTemplates(data)
+            } else {
+                // console.log(data.detail)
+            }
+        }
+
+        fetchData()
     }
+    , [])
 
     return (
         <div>

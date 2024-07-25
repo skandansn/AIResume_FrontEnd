@@ -7,7 +7,7 @@ import ResumeContentEditor from '../components/Account/ResumeContentEditor'
 import InputTexFilesEditor from '../components/Account/InputTexFilesEditor'
 import ResumeContent from '../components/Account/ResumeContent'
 
-const Profile = async () => {
+const Profile = () => {
 
     // const authToken = getCookie('authToken', { cookies })
     
@@ -17,26 +17,56 @@ const Profile = async () => {
     //     // window.location.href = '/auth/signin'
     // }
 
-    const response = await fetch('https://airesume-backend.onrender.com/account', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            // 'Authorization': `Bearer ${authToken}`
-        },
-        credentials: 'include'
-    })
 
-    const data = await response.json()
 
-    console.log(data)
+    // const response = await fetch('https://airesume-backend.onrender.com/account', {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         // 'Authorization': `Bearer ${authToken}`
+    //     },
+    //     credentials: 'include'
+    // })
 
-    if (response.ok) {
-        console.log("Profile data")
-        console.log(data)
-    } else {
-        // console.log(data.detail)
-    }
+    // const data = await response.json()
 
+    // console.log(data)
+
+    // if (response.ok) {
+    //     console.log("Profile data")
+    //     console.log(data)
+    // } else {
+    //     // console.log(data.detail)
+    // }
+
+    const [data, setData] = React.useState({ email: '', output_resume_name: '', resume_content: '', tex_files: [] })
+
+    React.useEffect(() => {
+        async function fetchData() {
+            const response = await fetch('https://airesume-backend.onrender.com/account', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${authToken}`
+                },
+                credentials: 'include'
+            })
+
+            const data = await response.json()
+
+            // console.log(data)
+
+            if (response.ok) {
+                // console.log("Profile data")
+                // console.log(data)
+                setData(data)
+            } else {
+                // console.log(data.detail)
+            }
+        }
+
+        fetchData()
+    }, [])
 
 
 
