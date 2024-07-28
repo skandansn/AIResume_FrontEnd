@@ -4,6 +4,8 @@ import GenerateResumeButton from './GenerateResumeButton';
 
 const InputReceiver = async () => {
 
+    var resumeTemplates: string[] = []
+
     const nextCookies = cookies()
     
     const authToken = nextCookies.get('authToken')
@@ -21,12 +23,13 @@ const InputReceiver = async () => {
         credentials: 'include'
     })
 
-    const resumeTemplates = await response.json()
+    const responseJson = await response.json()
 
     if (response.ok) {
+        resumeTemplates = responseJson
         // console.log(resumeTemplates)
     } else {
-        console.log(resumeTemplates.detail)
+        console.log(responseJson.detail)
     }
 
     return (
