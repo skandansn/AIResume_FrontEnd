@@ -3,7 +3,7 @@ import { cookies } from 'next/headers'
 import OutputResumeNameEditor from '../components/Account/OutputResumeNameEditor'
 import ResumeContentEditor from '../components/Account/ResumeContentEditor'
 import InputTexFilesEditor from '../components/Account/InputTexFilesEditor'
-import ResumeContent from '../components/Account/ResumeContent'
+import ModalContent from '../components/Account/ModalContent'
 import NavBar from '../components/NavBar'
 import { text } from 'stream/consumers'
 
@@ -60,23 +60,14 @@ const Profile = async () => {
         </div>
         <div className='flex flex-row space-x-3'>
         {data.resume_content && 
-                <ResumeContent resumeContent={data.resume_content || ''} />
-    }
+            <ModalContent id="resume" title='Resume Content' modalContent={data.resume_content} />
+          }
         <ResumeContentEditor />
         </div>
-        <div className='flex flex-col'>
-            <div className='text-lg'>Input Resume template files</div>
-        
-        {/* for loop for tex_files */}
-        {
-            data.tex_files && data.tex_files.map((tex_file: string, index: number) => {
-                return (
-                    <div key={index} className='text-lg'>{index+1}: {tex_file}</div>
-                )
-            })
-        
-        }
+        <div className='flex flex-row space-x-3'>
 
+            {data.tex_files && <ModalContent id="tex_files" title="Input Resume Templates" modalContent={data.tex_files.join('\n')} />}
+            
         <InputTexFilesEditor />
         </div>
     </div>

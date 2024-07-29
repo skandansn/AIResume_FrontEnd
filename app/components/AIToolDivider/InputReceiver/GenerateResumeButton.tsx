@@ -21,6 +21,17 @@ const GenerateResumeButton = () => {
             optional_keywords: optional_keywords
         };
 
+        if (ignore_keywords === '') {
+            if (keywords.hasOwnProperty('ignore_keywords')) {
+                delete (keywords as { ignore_keywords?: string }).ignore_keywords;
+            }
+        }
+        if (mandatory_keywords === '') {
+            if (keywords.hasOwnProperty('mandatory_keywords')) {
+                delete (keywords as { mandatory_keywords?: string }).mandatory_keywords;
+            }
+        }
+       
         const response = await fetch('http://localhost:8000/keywordsInjections/jobDescription', {
             method: 'POST',
             headers: {
