@@ -4,6 +4,8 @@ import OutputResumeNameEditor from '../components/Account/OutputResumeNameEditor
 import ResumeContentEditor from '../components/Account/ResumeContentEditor'
 import InputTexFilesEditor from '../components/Account/InputTexFilesEditor'
 import ResumeContent from '../components/Account/ResumeContent'
+import NavBar from '../components/NavBar'
+import { text } from 'stream/consumers'
 
 const Profile = async () => {
 
@@ -27,6 +29,15 @@ const Profile = async () => {
     const data = await response.json()
 
     if (response.ok) {
+        let tex_file_names = []
+
+        for (const tex of data.tex_files) {
+            tex_file_names.push(tex.file_name)
+        }
+
+        data.tex_files = tex_file_names
+
+        data.resume_content = data.resume.content
         // console.log(data)
     } else {
         // console.log(data.detail)
@@ -38,6 +49,8 @@ const Profile = async () => {
 
 
   return (
+    <div>
+    <NavBar/>
     <div className='flex flex-col space-y-3 justify-center items-center w-screen mt-3'>
         <div className='text-2xl font-bold'>Profile</div>
         <div className='text-lg'>Email: {data.email}</div>
@@ -66,6 +79,7 @@ const Profile = async () => {
 
         <InputTexFilesEditor />
         </div>
+    </div>
     </div>
   )
 }

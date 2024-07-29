@@ -28,6 +28,14 @@ const InputReceiver = async () => {
     if (response.ok) {
         resumeTemplates = responseJson
         // console.log(resumeTemplates)
+        let tex_file_names = []
+
+        for (const tex of responseJson) {
+            tex_file_names.push(tex.file_name)
+        }
+
+        resumeTemplates = tex_file_names
+        // console.log(resumeTemplates)
     } else {
         console.log(responseJson.detail)
     }

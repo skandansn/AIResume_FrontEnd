@@ -13,7 +13,7 @@ const GenerateResumeButton = () => {
         let ignore_keywords = (document.getElementById('ignore_keywords') as HTMLTextAreaElement).value;
         let optional_keywords = (document.querySelector('input[name="optional-keywords"]:checked') as HTMLInputElement).value;
         let resume_template = (document.querySelector('select') as HTMLSelectElement).value;
-        resume_template = resume_template.slice(0, -4);
+        resume_template = resume_template;
 
         let keywords = {
             mandatory_keywords: mandatory_keywords,
@@ -39,8 +39,14 @@ const GenerateResumeButton = () => {
             setIsLoading(false); // Stop loading
         } else {
             alert(data.detail);
+
+            if (response.status === 401) {
+                // redirect to home page
+                window.location.href = '/auth/signin';
+            } else {
             console.log(data.detail);
             setIsLoading(false); // Stop loading
+            }
         }
 
     };
