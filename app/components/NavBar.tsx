@@ -9,7 +9,7 @@ const NavBar = () => {
 
     async function logOutButtonHandler() {
 
-        const response = await fetch('http://localhost:8000/signOut', {
+        const response = await fetch('http://localhost:8000/auth/signOut', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
