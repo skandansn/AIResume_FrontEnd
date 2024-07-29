@@ -26,7 +26,11 @@ const InputReceiver = async () => {
     const responseJson = await response.json()
 
     if (response.ok) {
-        resumeTemplates = responseJson
+        
+        resumeTemplates = responseJson 
+
+        
+        if (resumeTemplates?.length > 0) {
         // console.log(resumeTemplates)
         let tex_file_names = []
 
@@ -35,6 +39,7 @@ const InputReceiver = async () => {
         }
 
         resumeTemplates = tex_file_names
+    }
         // console.log(resumeTemplates)
     } else {
         console.log(responseJson.detail)

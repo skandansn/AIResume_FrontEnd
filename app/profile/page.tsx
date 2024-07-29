@@ -29,6 +29,7 @@ const Profile = async () => {
     const data = await response.json()
 
     if (response.ok) {
+        if (data.tex_files?.length > 0) {
         let tex_file_names = []
 
         for (const tex of data.tex_files) {
@@ -36,8 +37,9 @@ const Profile = async () => {
         }
 
         data.tex_files = tex_file_names
+    }
 
-        data.resume_content = data.resume.content
+        data.resume_content = data?.resume?.content
         // console.log(data)
     } else {
         // console.log(data.detail)
