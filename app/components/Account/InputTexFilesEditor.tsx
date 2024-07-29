@@ -24,7 +24,7 @@ const InputTexFilesEditor = () => {
         const formData = new FormData();
         formData.append('input_tex', selectedFile);
 
-        const response = await fetch('http://localhost:8000/account/updateInputTex', {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/updateInputTex', {
             method: 'POST',
             body: formData,
             credentials: 'include'

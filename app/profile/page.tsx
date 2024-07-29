@@ -17,7 +17,7 @@ const Profile = async () => {
         window.location.href = '/auth/signin'
     }
 
-    const response = await fetch('http://localhost:8000/account/', {
+    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

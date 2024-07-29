@@ -14,7 +14,7 @@ const InputReceiver = async () => {
         window.location.href = '/auth/signin'
     }
 
-    const response = await fetch('http://localhost:8000/account/listTexFiles', {
+    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/listTexFiles', {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

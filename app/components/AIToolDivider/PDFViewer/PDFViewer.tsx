@@ -28,7 +28,7 @@ const PDFViewer = () => {
 
     async function resumeLoader() {
 
-        const response = await fetch('http://localhost:8000/account/outputResumeLink', {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/outputResumeLink', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

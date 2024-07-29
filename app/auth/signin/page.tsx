@@ -13,7 +13,7 @@ const SignInPage = () => {
         // console.log(email)
         // console.log(password)
 
-        const response = await fetch('http://localhost:8000/auth/signIn', {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/signIn', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

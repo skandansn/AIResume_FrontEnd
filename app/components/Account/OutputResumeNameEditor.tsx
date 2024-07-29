@@ -8,7 +8,7 @@ const OutputResumeNameEditor = () => {
 
     async function outputResumeNameButtonHandler() {
 
-        const response = await fetch('http://localhost:8000/account/updateOutputResumeName', {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/updateOutputResumeName', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -32,7 +32,7 @@ const GenerateResumeButton = () => {
             }
         }
        
-        const response = await fetch('http://localhost:8000/keywordsInjections/jobDescription', {
+        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/keywordsInjections/jobDescription', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
