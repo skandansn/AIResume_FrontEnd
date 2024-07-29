@@ -44,7 +44,13 @@ const PDFViewer = () => {
             setRefreshKey(refreshKey + 1)
         } else {
             alert(data.detail)
+            if (response.status === 401) {
+                // redirect to home page
+                window.location.href = '/auth/signin'
+            } else {
+
             console.log(data.detail)
+            }
         }
     
     }
