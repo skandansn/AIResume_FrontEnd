@@ -9,7 +9,7 @@ const NavBar = () => {
 
     async function logOutButtonHandler() {
 
-        const response = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/logout', {
+        const response = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/signOut', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

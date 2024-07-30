@@ -21,7 +21,7 @@ const SignInPage = () => {
             return
         }
 
-        const response = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/register', {
+        const response = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/signUp', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
