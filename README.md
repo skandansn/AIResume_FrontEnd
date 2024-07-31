@@ -1,34 +1,23 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+AIResume has the power to pass ATS checks! 
 
-## Getting Started
+Check out the app: https://airesume-frontend.onrender.com
 
-First, run the development server:
+It can alter your resume to match with keywords that are expected for a specific job application.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+Technologies used: FastAPI (Python) based back-end system.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Gemini AI for generative AI (generating updated resume)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Flow:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Provide the job description to the API.
 
-## Learn More
+Optionally provide some manadatory keywords that has to be in the new updated resume.
 
-To learn more about Next.js, take a look at the following resources:
+Optionally specify which of your resumes to update (can store and use multiple different resume at a time)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+AIResume finds the most important keywords for this job description and finds a way to add them to your resume.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Generate the final updated PDF version of your new resume.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Can also be used as an REST API: https://airesume-backend.onrender.com
