@@ -1,49 +1,100 @@
-import React from 'react'
-import { cookies } from 'next/headers'
+'use client'
+import React, { useState, useEffect } from 'react'
+// import { cookies } from 'next/headers'
 import GenerateResumeButton from './GenerateResumeButton';
 
-const InputReceiver = async () => {
+const InputReceiver = () => {
 
-    var resumeTemplates: string[] = []
-
-    const nextCookies = cookies()
+    const [resumeTemplates, setResumeTemplates] = useState<string[]>([])
     
-    const authToken = nextCookies.get('authToken')
-
-    if (!authToken) {
-        window.location.href = '/auth/signin'
-    }
-
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/listTexFiles', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken?.value}`
-        },
-        credentials: 'include'
-    })
-
-    const responseJson = await response.json()
-
-    if (response.ok) {
-        
-        resumeTemplates = responseJson 
-
-        
-        if (resumeTemplates?.length > 0) {
-        // console.log(resumeTemplates)
-        let tex_file_names = []
-
-        for (const tex of responseJson) {
-            tex_file_names.push(tex.file_name)
+    useEffect(() => {
+        const fetchResumeTemplates = async () => {
+            // const nextCookies = cookies()
+    
+            // const authToken = nextCookies.get('authToken')
+    
+            // if (!authToken) {
+            //     window.location.href = '/auth/signin'
+            // }
+    
+            const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/listTexFiles', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    // 'Authorization': `Bearer ${authToken?.value}`
+                },
+                credentials: 'include'
+            })
+    
+            const responseJson = await response.json()
+    
+            if (response.ok) {
+                
+                let resumeTemplates: string[] = responseJson 
+    
+                
+                if (resumeTemplates?.length > 0) {
+                // console.log(resumeTemplates)
+                let tex_file_names = []
+    
+                for (const tex of responseJson) {
+                    tex_file_names.push(tex.file_name)
+                }
+    
+                resumeTemplates = tex_file_names
+            }
+                // console.log(resumeTemplates)
+                setResumeTemplates(resumeTemplates)
+            } else {
+                console.log(responseJson.detail)
+            }
         }
 
-        resumeTemplates = tex_file_names
-    }
-        // console.log(resumeTemplates)
-    } else {
-        console.log(responseJson.detail)
-    }
+        fetchResumeTemplates()
+    }, [])
+
+
+
+    // var resumeTemplates: string[] = []
+
+    // const nextCookies = cookies()
+    
+    // const authToken = nextCookies.get('authToken')
+
+    // if (!authToken) {
+    //     window.location.href = '/auth/signin'
+    // }
+
+    // const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/listTexFiles', {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         'Authorization': `Bearer ${authToken?.value}`
+    //     },
+    //     credentials: 'include'
+    // })
+
+    // const responseJson = await response.json()
+
+    // if (response.ok) {
+        
+    //     resumeTemplates = responseJson 
+
+        
+    //     if (resumeTemplates?.length > 0) {
+    //     // console.log(resumeTemplates)
+    //     let tex_file_names = []
+
+    //     for (const tex of responseJson) {
+    //         tex_file_names.push(tex.file_name)
+    //     }
+
+    //     resumeTemplates = tex_file_names
+    // }
+    //     // console.log(resumeTemplates)
+    // } else {
+    //     console.log(responseJson.detail)
+    // }
 
     return (
         <div>

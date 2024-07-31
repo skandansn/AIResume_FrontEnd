@@ -1,4 +1,5 @@
-import React from 'react'
+'use client'
+import React, { useState, useEffect } from 'react'
 import { cookies } from 'next/headers'
 import OutputResumeNameEditor from '../components/Account/OutputResumeNameEditor'
 import ResumeContentEditor from '../components/Account/ResumeContentEditor'
@@ -7,43 +8,88 @@ import ModalContent from '../components/Account/ModalContent'
 import NavBar from '../components/NavBar'
 import { text } from 'stream/consumers'
 
-const Profile = async () => {
+const Profile = () => {
 
-    const nextCookies = cookies()
+    // const nextCookies = cookies()
     
-    const authToken = nextCookies.get('authToken')
+    // const authToken = nextCookies.get('authToken')
 
-    if (!authToken) {
-        window.location.href = '/auth/signin'
-    }
+    // if (!authToken) {
+    //     window.location.href = '/auth/signin'
+    // }
 
-    const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/', {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${authToken?.value}`
-        },
-        credentials: 'include'
+
+
+    // const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/', {
+    //     method: 'GET',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //         // 'Authorization': `Bearer ${authToken?.value}`
+    //     },
+    //     credentials: 'include'
+    // })
+
+    // const data = await response.json()
+
+    // if (response.ok) {
+    //     if (data.tex_files?.length > 0) {
+    //     let tex_file_names = []
+
+    //     for (const tex of data.tex_files) {
+    //         tex_file_names.push(tex.file_name)
+    //     }
+
+    //     data.tex_files = tex_file_names
+    // }
+
+    //     data.resume_content = data?.resume?.content
+    //     // console.log(data)
+    // } else {
+    //     // console.log(data.detail)
+    // }
+
+    const [data, setData] = useState({
+        email: '',
+        output_resume_name: '',
+        resume_content: '',
+        tex_files: []
     })
 
-    const data = await response.json()
+    useEffect(() => {
+        const fetchProfileData = async () => {
+            const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/account/', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            })
 
-    if (response.ok) {
-        if (data.tex_files?.length > 0) {
-        let tex_file_names = []
+            const data = await response.json()
 
-        for (const tex of data.tex_files) {
-            tex_file_names.push(tex.file_name)
+            if (response.ok) {
+                if (data.tex_files?.length > 0) {
+                    let tex_file_names = []
+
+                    for (const tex of data.tex_files) {
+                        tex_file_names.push(tex.file_name)
+                    }
+
+                    data.tex_files = tex_file_names
+                }
+
+                data.resume_content = data?.resume?.content
+                // console.log(data)
+                setData(data)
+            } else {
+                // console.log(data.detail)
+            }
         }
 
-        data.tex_files = tex_file_names
+        fetchProfileData()
     }
+    , [])
 
-        data.resume_content = data?.resume?.content
-        // console.log(data)
-    } else {
-        // console.log(data.detail)
-    }
 
 
 

@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import InputReceiver from './InputReceiver/InputReceiver'
 import PDFViewer from './PDFViewer/PDFViewer'
