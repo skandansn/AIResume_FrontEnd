@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import { Fragment } from 'react';
 
 const ModalContent = ({ id, title, modalContent }: { id: string, title: string, modalContent: string }) => {
   // Convert newlines to an array of strings
@@ -18,10 +18,10 @@ const ModalContent = ({ id, title, modalContent }: { id: string, title: string, 
           <div className="py-4">
             {/* Render each line and include a <br /> for line breaks */}
             {lines.map((line, index) => (
-              <React.Fragment key={index}>
+              <Fragment key={index}>
                 {line}
                 <br />
-              </React.Fragment>
+              </Fragment>
             ))}
           </div>
           <div className="modal-action">
