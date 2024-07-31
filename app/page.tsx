@@ -1,4 +1,4 @@
-'use client'
+// 'use client'
 import AIToolDivider from './components/AIToolDivider/AIToolDivider'
 import NavBar from './components/NavBar'
 
