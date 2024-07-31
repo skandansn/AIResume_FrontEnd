@@ -1,12 +1,12 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { cookies } from 'next/headers'
+// import { cookies } from 'next/headers'
 import OutputResumeNameEditor from '../components/Account/OutputResumeNameEditor'
 import ResumeContentEditor from '../components/Account/ResumeContentEditor'
 import InputTexFilesEditor from '../components/Account/InputTexFilesEditor'
 import ModalContent from '../components/Account/ModalContent'
 import NavBar from '../components/NavBar'
-import { text } from 'stream/consumers'
+// import { text } from 'stream/consumers'
 
 const Profile = () => {
 
