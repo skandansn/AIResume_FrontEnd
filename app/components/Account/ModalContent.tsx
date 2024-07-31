@@ -1,4 +1,4 @@
-'use client';
+// 'use client';
 import { Fragment } from 'react';
 
 const ModalContent = ({ id, title, modalContent }: { id: string, title: string, modalContent: string }) => {
