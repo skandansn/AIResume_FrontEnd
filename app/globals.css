@@ -2,17 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
+@layer base {
+  body {
+    @apply min-h-screen bg-base-200 text-base-content antialiased;
+  }
+
+  /* Inputs read better with a touch more room than the daisyUI default. */
+  .textarea,
+  .input {
+    @apply bg-base-100;
+  }
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
+@layer components {
+  /* Page wrapper: consistent gutters at every width. */
+  .page {
+    @apply mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8;
   }
-} */
 
-body {
-  color: rgb(var(--foreground-rgb));
-  padding: 1rem;
+  .panel {
+    @apply rounded-box border border-base-300 bg-base-100 shadow-sm;
+  }
+
+  .panel-title {
+    @apply text-base font-semibold leading-tight;
+  }
+
+  .panel-hint {
+    @apply text-sm text-base-content/60;
+  }
+
+  /* Numbered step marker used on the tailor page. */
+  .step-badge {
+    @apply flex size-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-bold text-primary-content;
+  }
+}
+
+/* The PDF preview scrolls inside its own panel. */
+.preview-scroll {
+  scrollbar-width: thin;
+}
+
+.preview-scroll::-webkit-scrollbar {
+  width: 10px;
+}
+
+.preview-scroll::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-base-300;
+}
+
+/* react-pdf sizes its canvas inline; keep it from overflowing the panel. */
+.react-pdf__Page__canvas {
+  max-width: 100% !important;
+  height: auto !important;
 }

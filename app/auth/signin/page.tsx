@@ -1,55 +1,79 @@
 'use client'
-import React from 'react'
-import { useState } from 'react';
+
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import AuthLayout from '../../components/auth/AuthLayout'
+import { TextField } from '../../components/ui/Fields'
+import { ApiError, signIn } from '../../lib/api'
+import { AlertIcon } from '../../components/ui/Icons'
 
 const SignInPage = () => {
+    const router = useRouter()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [error, setError] = useState('')
+    const [busy, setBusy] = useState(false)
 
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-
-    async function signInHandler(event: React.FormEvent) {
+    const signInHandler = async (event: React.FormEvent) => {
         event.preventDefault()
+        setError('')
+        setBusy(true)
 
-        // console.log(email)
-        // console.log(password)
-
-        const response = await fetch(process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/signIn', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password }),
-            credentials: 'include'
-        })
-
-        // console.log(response.status)
-
-        const data = await response.json()
-
-        if (response.ok) {
-            // console.log(data)
-
-            // redirect to home page
-            window.location.href = '/'
-        } else {
-            alert(data.detail)
-            console.log(data.detail)
+        try {
+            await signIn(email, password)
+            router.push('/')
+        } catch (caught) {
+            const message = caught instanceof ApiError ? caught.message : 'Something went wrong. Please try again.'
+            setError(message === 'Invalid input. Please try again.' ? 'That email and password do not match an account.' : message)
+            setBusy(false)
         }
-
-
     }
 
-  return (
-    <div className='h-screen flex items-center justify-center'>
-        <form className='items-center justify-center flex flex-col space-y-3' onSubmit={signInHandler}>
-            <div className='text-2xl font-bold'>Sign In</div>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} required type="email" placeholder="Enter Email" className="input input-bordered w-full max-w-xs" />
-            <input value={password} onChange={(e) => setPassword(e.target.value)} required type="password" placeholder="Enter Password" className="input input-bordered w-full max-w-xs" /> 
-            <button type="submit" className="btn">Sign In</button>
-            <text className='text-sm'>Do not have an account? <a href='/auth/register'>Register</a></text>
-        </form>
-     </div>
-  )
+    return (
+        <AuthLayout title="Welcome back" subtitle="Sign in to tailor your resume to a new job.">
+            <form className="space-y-4" onSubmit={signInHandler}>
+                {error && (
+                    <div className="alert alert-error py-2 text-sm" role="alert">
+                        <AlertIcon className="size-5 shrink-0" />
+                        <span>{error}</span>
+                    </div>
+                )}
+
+                <TextField
+                    label="Email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <TextField
+                    label="Password"
+                    type="password"
+                    required
+                    autoComplete="current-password"
+                    placeholder="Your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button type="submit" className="btn btn-primary w-full" disabled={busy}>
+                    {busy && <span className="loading loading-spinner loading-sm" />}
+                    {busy ? 'Signing in…' : 'Sign in'}
+                </button>
+
+                <p className="text-center text-sm text-base-content/70">
+                    New here?{' '}
+                    <Link href="/auth/register" className="link link-primary font-medium">
+                        Create an account
+                    </Link>
+                </p>
+            </form>
+        </AuthLayout>
+    )
 }
 
 export default SignInPage

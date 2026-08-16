@@ -1,64 +1,105 @@
 'use client'
-import React from 'react'
-import { useState } from 'react';
 
-const SignInPage = () => {
+import React, { useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import AuthLayout from '../../components/auth/AuthLayout'
+import { TextField } from '../../components/ui/Fields'
+import { ApiError, signUp } from '../../lib/api'
+import { AlertIcon } from '../../components/ui/Icons'
 
-    const [email, setEmail] = useState<string>('')
-    const [password1, setPassword1] = useState<string>('')
-    const [password2, setPassword2] = useState<string>('')
+const RegisterPage = () => {
+    const router = useRouter()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmation, setConfirmation] = useState('')
+    const [error, setError] = useState('')
+    const [busy, setBusy] = useState(false)
 
-
-    async function registerHandler(event: React.FormEvent) {
+    const registerHandler = async (event: React.FormEvent) => {
         event.preventDefault()
+        setError('')
 
-        // console.log(email)
-        // console.log(password1)
-        // console.log(password2)
-
-        if (password1 !== password2) {
-            alert('Passwords do not match')
+        if (password.length < 6) {
+            setError('Use a password with at least 6 characters.')
             return
         }
 
-        const response = await fetch( process.env.NEXT_PUBLIC_BACKEND_URL + '/auth/signUp', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, password: password1 }),
-            credentials: 'include'
-        })
-
-        // console.log(response.status)
-
-        const data = await response.json()
-
-        if (response.ok) {
-            // console.log(data)
-
-            // redirect to home page
-            window.location.href = '/'
-        } else {
-            alert(data.detail)
-            console.log(data.detail)
+        if (password !== confirmation) {
+            setError('The two passwords do not match.')
+            return
         }
 
+        setBusy(true)
 
+        try {
+            await signUp(email, password)
+            router.push('/resume')
+        } catch (caught) {
+            const message = caught instanceof ApiError ? caught.message : 'Something went wrong. Please try again.'
+            setError(
+                message === 'Invalid input. Please try again.'
+                    ? 'That email may already have an account, or the password is too weak.'
+                    : message,
+            )
+            setBusy(false)
+        }
     }
 
-  return (
-    <div className='h-screen flex items-center justify-center'>
-        <form className='items-center justify-center flex flex-col space-y-3' onSubmit={registerHandler}>
-            <div className='text-2xl font-bold'>Register</div>
-            <input value={email} onChange={(e) => setEmail(e.target.value)} required type="email" placeholder="Enter Email" className="input input-bordered w-full max-w-xs" />
-            <input value={password1} onChange={(e) => setPassword1(e.target.value)} required type="password" placeholder="Enter Password" className="input input-bordered w-full max-w-xs" /> 
-            <input value={password2} onChange={(e) => setPassword2(e.target.value)} required type="password" placeholder="Enter Password" className="input input-bordered w-full max-w-xs" /> 
-            <button type="submit" className="btn">Register</button>
-            <text className='text-sm'>Already have an account? <a href='/auth/signin'>Sign In</a></text>
-        </form>
-     </div>
-  )
+    return (
+        <AuthLayout title="Create your account" subtitle="It takes about two minutes to set up your resume.">
+            <form className="space-y-4" onSubmit={registerHandler}>
+                {error && (
+                    <div className="alert alert-error py-2 text-sm" role="alert">
+                        <AlertIcon className="size-5 shrink-0" />
+                        <span>{error}</span>
+                    </div>
+                )}
+
+                <TextField
+                    label="Email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    placeholder="you@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <TextField
+                    label="Password"
+                    type="password"
+                    required
+                    autoComplete="new-password"
+                    placeholder="At least 6 characters"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <TextField
+                    label="Confirm password"
+                    type="password"
+                    required
+                    autoComplete="new-password"
+                    placeholder="Type it once more"
+                    value={confirmation}
+                    onChange={(e) => setConfirmation(e.target.value)}
+                />
+
+                <button type="submit" className="btn btn-primary w-full" disabled={busy}>
+                    {busy && <span className="loading loading-spinner loading-sm" />}
+                    {busy ? 'Creating your account…' : 'Create account'}
+                </button>
+
+                <p className="text-center text-sm text-base-content/70">
+                    Already have an account?{' '}
+                    <Link href="/auth/signin" className="link link-primary font-medium">
+                        Sign in
+                    </Link>
+                </p>
+            </form>
+        </AuthLayout>
+    )
 }
 
-export default SignInPage
+export default RegisterPage
