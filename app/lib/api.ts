@@ -1,6 +1,13 @@
-/** Browser-side calls to the resumeAI API. Auth rides on an httpOnly cookie. */
+/**
+ * Browser-side calls to the API, made through this app's own /api routes.
+ *
+ * They are never sent to the API's host directly: its session cookie belongs to
+ * that host, so on separate domains the browser would neither store nor return
+ * it. Going through our own origin keeps the session first party, and means
+ * there is no CORS involved at all.
+ */
 
-const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+const BASE_URL = '/api'
 
 export class ApiError extends Error {
     status: number
@@ -43,7 +50,7 @@ export const request = async <T>(path: string, options: RequestOptions = {}): Pr
             method,
             headers: form ? undefined : { 'Content-Type': 'application/json' },
             body: form ?? (body === undefined ? undefined : JSON.stringify(body)),
-            credentials: 'include',
+            credentials: 'same-origin',
         })
     } catch {
         throw new ApiError('Could not reach the server. Check your connection and try again.', 0)
@@ -62,13 +69,15 @@ export const request = async <T>(path: string, options: RequestOptions = {}): Pr
     return payload as T
 }
 
+// the auth routes are handled by this app, which turns the API's token into a
+// session cookie on this origin
 export const signIn = (email: string, password: string) =>
-    request<unknown>('/auth/signIn', { method: 'POST', body: { email, password } })
+    request<unknown>('/auth/signin', { method: 'POST', body: { email, password } })
 
 export const signUp = (email: string, password: string) =>
-    request<unknown>('/auth/signUp', { method: 'POST', body: { email, password } })
+    request<unknown>('/auth/signup', { method: 'POST', body: { email, password } })
 
-export const signOut = () => request<unknown>('/auth/signOut', { method: 'POST' })
+export const signOut = () => request<unknown>('/auth/signout', { method: 'POST' })
 
 export const updateOutputResumeName = (resume_name: string) =>
     request<unknown>('/account/updateOutputResumeName', { method: 'POST', body: { resume_name } })
